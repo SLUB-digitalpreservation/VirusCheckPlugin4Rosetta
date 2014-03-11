@@ -40,6 +40,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
   //private static final ExLogger log = ExLogger.getExLogger(SLUBVirusCheckClamAVPlugin.class);
   private static final int DEFAULT_CHUNK_SIZE = 2048;
   private static final byte[] INSTREAM = "zINSTREAM\0".getBytes();
+  private static final byte[] VERSION = "zVERSION\0".getBytes();
   private static final String RESPONSEOK = "stream: OK";
   private static final String FOUND_SUFFIX = "FOUND";
   private static final String STREAM_PREFIX = "stream: ";
@@ -144,7 +145,45 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
   }
   
   public String getAgent () {
-    return "clamd";
+  	try {
+    // create a socket
+    Socket socket = new Socket ();
+    //socket.connect( new InetSocketAddress(getHost()));
+    socket.connect( new InetSocketAddress(getHost(), getPort()));
+    try {
+      socket.setSoTimeout( getTimeOut() );
+    } catch (SocketException e) {
+    	System.out.println( "Could not set socket timeout to " + getTimeOut() + "ms " + e);
+      //log.error( "Could not set socket timeout to " + getTimeOut() + "ms", e);
+    }
+    DataOutputStream dos = null;
+    response = "";
+    try {
+      dos = new DataOutputStream(socket.getOutputStream());
+      dos.write(VERSION);
+      int read;
+      byte[] buffer = new byte[DEFAULT_CHUNK_SIZE];
+      dos.flush();
+      read = socket.getInputStream().read(buffer);
+      if (read > 0) response = new String(buffer, 0, read);
+    } finally {
+      if (dos != null) try { dos.close(); } catch (IOException e) { 
+        // log.debug("exception closing DOS", e);
+        System.out.println( "exception closing DOS "+ e );
+      }
+      try { socket.close(); } catch (IOException e) { 
+        // log.debug("exception closing socket", e); 
+        System.out.println( "exception closing socket "+ e);
+      }
+    }
+    return response;
+    } catch (IOException e) {
+    	//log.error("exception creation socket, clamd not available at host=" + host + "port=" + port, e);
+    	System.out.println ("exception creation socket, clamd not available at host=" + host + "port=" + port + " " + e);
+    	setStatus(Status.FAILED);
+    	setSignature("ERROR: clamd not available");
+    	return "ERROR: clamd not available";
+    }
   }
   
   public boolean isVirusFree() {
@@ -155,6 +194,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
   // stand alone check
   public static void main(String [] args) {
   	SLUBVirusCheckClamAVPlugin plugin = new SLUBVirusCheckClamAVPlugin( "127.0.0.1", 3310, 60);
+  	System.out.println("Agent: "+ plugin.getAgent() );
   	for (String file:args) {
   		plugin.scan( file );
   		System.out.println("RESULT: " + plugin.isVirusFree() + " SIGNATURE: " + plugin.getOutput());
