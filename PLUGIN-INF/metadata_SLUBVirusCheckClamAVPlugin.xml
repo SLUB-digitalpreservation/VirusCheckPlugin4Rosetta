@@ -33,6 +33,18 @@
 					<css_class>width40</css_class>
 					<x_options></x_options>
 				</x_field>
+				<x_field>
+					<field_name>timeout</field_name>
+					<label>timeout</label>
+					<ui_tool_tip>add timeout (in ms) for clamAV daemon</ui_tool_tip>
+					<single>false</single>
+					<mandatory>true</mandatory>
+					<default_value>60</default_value>
+					<x_logic_type>String</x_logic_type>
+					<x_ui_type>TextField</x_ui_type>
+					<css_class>width40</css_class>
+					<x_options></x_options>
+				</x_field>
 			</x_fields>
 		</fr:x_form>
 	</pl:initParameters>
