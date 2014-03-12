@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.HashMap;
+import java.util.Map;
 
 // import com.exlibris.dps.repository.plugin.virusCheck;
 
@@ -42,19 +44,30 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
     private String signature = "";
     private enum Status {PASSED, FAILED};
     /** constructor */
-    SLUBVirusCheckClamAVPlugin(String host, int port, int timeout) {
-        this.host = host;
-        this.port = port;
-        this.timeout = timeout;
+    SLUBVirusCheckClamAVPlugin() {
+        //log.info("SLUBVirusCheckPlugin instantiated with host=" + host + " port=" + port + " timeout=" + timeout);
+        System.out.println("SLUBVirusCheckPlugin instantiated");
+    }
+    /** init params to configure the plugin
+     * @param initp parameter map
+     */
+    public void initParams(Map<String, String> initp) {
+        this.host = initp.get("host");
+        this.port = Integer.parseInt(initp.get("port"));
+        this.timeout = Integer.parseInt(initp.get("timeout"));
         //log.info("SLUBVirusCheckPlugin instantiated with host=" + host + " port=" + port + " timeout=" + timeout);
         System.out.println("SLUBVirusCheckPlugin instantiated with host=" + host + " port=" + port + " timeout=" + timeout);
     }
-
     /** stand alone check, main file to call local installed clamd
      * @param args list of files which should be scanned
      */
     public static void main(String[] args) {
-        SLUBVirusCheckClamAVPlugin plugin = new SLUBVirusCheckClamAVPlugin("127.0.0.1", 3310, 60);
+        SLUBVirusCheckClamAVPlugin plugin = new SLUBVirusCheckClamAVPlugin();
+        Map<String, String> initp = new HashMap<String, String>();
+        initp.put( "host", "127.0.0.1");
+        initp.put( "port", "3310");
+        initp.put( "timeout", "60");
+        plugin.initParams( initp );
         System.out.println("Agent: " + plugin.getAgent());
         for (String file : args) {
             plugin.scan(file);
