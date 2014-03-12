@@ -24,7 +24,7 @@ import java.net.SocketException;
  * code could also be copied from https://code.google.com/p/clamavj/source/browse/trunk/src/main/java/com/philvarner/clamavj/ClamScan.java?r=2
  *
  * @author andreas.romeyke@slub-dresden.de (Andreas Romeyke)
- * @see
+ * @see com.exlibris.dps.repository.plugin.virusChcek.VirusCheckPlugin 
  */
 public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
     //private static final ExLogger log = ExLogger.getExLogger(SLUBVirusCheckClamAVPlugin.class);
@@ -50,7 +50,9 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         System.out.println("SLUBVirusCheckPlugin instantiated with host=" + host + " port=" + port + " timeout=" + timeout);
     }
 
-    // stand alone check
+    /** stand alone check, main file to call local installed clamd
+     * @param args list of files which should be scanned
+     */
     public static void main(String[] args) {
         SLUBVirusCheckClamAVPlugin plugin = new SLUBVirusCheckClamAVPlugin("127.0.0.1", 3310, 60);
         System.out.println("Agent: " + plugin.getAgent());
@@ -60,37 +62,69 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         }
     }
 
-    // getter, ex.: get Host, port, timeout
+    /** get host
+     *
+     * @return host
+     */
     protected String getHost() {
         return this.host;
     }
 
+    /** get port
+     *
+     * @return port number
+     */
     protected int getPort() {
         return this.port;
     }
 
+    /** get timeout
+     *
+     * @return timeout in ms
+     */
     protected int getTimeOut() {
         return this.timeout;
     }
 
+    /** get signature of last scanned file
+     *
+     * @return signature name
+     */
     protected String getSignature() {
         return this.signature;
     }
 
-    // setter
+    /** set signature of last scanned file
+     *
+     * @param signature signature of last scanned file
+     */
     protected void setSignature(String signature) {
         this.signature = signature;
     }
 
+    /** get status of last scan
+     *
+     * @return status of last scan
+     */
     protected Status getStatus() {
         return status;
     }
 
+    /** set status of last scan
+     *
+     * @param status status of last scan
+     */
     protected void setStatus(Status status) {
         this.status = status;
     }
 
-
+    /** helper to cat 'in' stream to 'dos' stream for socket communication
+     *
+     * @param in raw input stream 'in'
+     * @param dos special outputstream 'dos' for socket communication special for clamd
+     * @param buffer buffer to buffer cat
+     * @throws IOException if something goes wrong
+     */
     private void writeStreamToStream(InputStream in, DataOutputStream dos, byte[] buffer) throws IOException {
         int read;
         while ((read = in.read(buffer)) > 0) {
@@ -100,6 +134,11 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         dos.writeInt(0);
     }
 
+    /** opens a socket
+     *
+     * @return socket
+     * @throws IOException if soemthing goes wrong
+     */
     private Socket openSocket() throws IOException {
         // create a socket
         Socket socket = new Socket();
@@ -114,6 +153,11 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         return socket;
     }
 
+    /** close socket
+     *
+     * @param socket socket which should be closed
+     * @param dos associated outputstream to socket
+     */
     private void closeSocket(Socket socket, DataOutputStream dos) {
         if (dos != null) try {
             dos.close();
@@ -130,6 +174,12 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
     }
 
 
+    /** calls a simple clamd command via socket
+     *
+     * @param socket opened socket
+     * @param command clamd command
+     * @throws IOException if something goes wrong
+     */
     private void callSocketCommand(Socket socket, byte[] command) throws IOException {
         DataOutputStream dos = null;
         try {
@@ -145,7 +195,13 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         }
     }
 
-
+    /** calls an extended clamd command via socket, which expects an additional data inputstream which should be sent
+     *
+     * @param socket opened socket
+     * @param command clamd command
+     * @param in input stream which should be sent to clamd
+     * @throws IOException if something goes wrong
+     */
     private void callSocketCommandStream(Socket socket, byte[] command, InputStream in) throws IOException {
         DataOutputStream dos = null;
         try {
@@ -162,7 +218,10 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         }
     }
 
-    // scans a given file for viruses
+    /** scans a given file for viruses
+     *
+     * @param fileFullPath scans given file via clamd
+     */
     public void scan(String fileFullPath) {
         try {
             Socket socket = openSocket();
@@ -195,11 +254,18 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         }
     }
 
-    // outcome of virus check
+    /** outcome of virus check
+     *
+     * @return signature of last scan
+     */
     public String getOutput() {
         return getSignature();
     }
 
+    /** get clamd agent version and signature version calling clamd-command VERSION
+     *
+     * @return string with clamd version and signature version
+     */
     public String getAgent() {
         try {
             // create a socket
@@ -217,13 +283,14 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         }
     }
 
-
+    /** result of last scan
+     *
+     * @return true if last scan passed (means: virus free)
+     */
     public boolean isVirusFree() {
         //return true; // dummy
         return (Status.PASSED == getStatus());
     }
-
-
 }
 
 
