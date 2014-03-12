@@ -48,7 +48,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         //log.info("SLUBVirusCheckPlugin instantiated with host=" + host + " port=" + port + " timeout=" + timeout);
         System.out.println("SLUBVirusCheckPlugin instantiated");
     }
-    /** init params to configure the plugin
+    /** init params to configure the plugin via xml forms
      * @param initp parameter map
      */
     public void initParams(Map<String, String> initp) {
