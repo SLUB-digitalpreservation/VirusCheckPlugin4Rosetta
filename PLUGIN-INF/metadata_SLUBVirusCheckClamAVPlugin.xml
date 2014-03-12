@@ -17,6 +17,7 @@
 					<mandatory>true</mandatory>
 					<x_logic_type>String</x_logic_type>
 					<x_ui_type>TextField</x_ui_type>
+					<default_value>localhost</default_value>
 					<css_class>width40</css_class>
 					<x_options></x_options>
 				</x_field>
@@ -26,7 +27,8 @@
 					<ui_tool_tip>add port number for clamAV daemon</ui_tool_tip>
 					<single>false</single>
 					<mandatory>true</mandatory>
-					<x_logic_type>Int</x_logic_type>
+					<default_value>3310</default_value>
+					<x_logic_type>String</x_logic_type>
 					<x_ui_type>TextField</x_ui_type>
 					<css_class>width40</css_class>
 					<x_options></x_options>
