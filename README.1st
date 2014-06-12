@@ -2,7 +2,8 @@
 in directory EICAR/ is a file called "eicar", which contains the standard
 antivirus testsignature. This means that this file will ever ever trigger a
 virus alert in all known antivirus programs. This inot a bug, but a feature to
-ensure that "virus" files will be detected.
+ensure that "virus" files will be detected. See
+http://de.wikipedia.org/wiki/EICAR-Testdatei for details.
 
 Please test the plugin with this file:
 $> java -cp $EXLIBRISCLASSPATH:SLUBVirusCheckPlugin.jar org.slub.rosetta.dps.repository.plugin.SLUBVirusCheckClamAVPlugin EICAR/eicar 

@@ -1,0 +1,15 @@
+Plugin for Rosetta to enable real virus checking.
+
+Rosetta is a digital preservation software by ExLibrisGroup, see
+http://www.exlibrisgroup.com/de/ for details.
+
+The plugin uses the free software freshclamd/clamAV, see 
+http://www.clamav.net/lang/en/
+
+The code is partially based on https://code.google.com/p/clamavj/source/browse/trunk/src/main/java/com/philvarner/clamavj/ClamScan.java?r=2
+ https://github.com/vrtadmin/clamav-devel/blob/master/clamdscan/client.c and 
+ https://github.com/vrtadmin/clamav-devel/blob/master/clamdscan/proto.c
+
+and therefore licenced via Apache License Version 2.0. 
+
+Andreas Romeyke
