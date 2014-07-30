@@ -65,7 +65,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
     private String signature = "";
     private enum Status {PASSED, FAILED};
     /** constructor */
-    SLUBVirusCheckClamAVPlugin() {
+    public SLUBVirusCheckClamAVPlugin() {
         //log.info("SLUBVirusCheckPlugin instantiated with host=" + host + " port=" + port + " timeout=" + timeout);
         System.out.println("SLUBVirusCheckPlugin instantiated");
     }
