@@ -16,3 +16,8 @@ tcpsockets. Default is port 3310. The entry should look like: "TCPSocket 3310"
 = Compile =
 * make clean
 * make
+
+HINT: if you update the code you should also increase the value of the xpath 
+'pl:metadata-config/pl:version' in the file
+PLUGIN-INF/metadata_SLUBVirusCheckClamAVPlugin.xml to ensure Rosetta recognizes
+the updated plugin
