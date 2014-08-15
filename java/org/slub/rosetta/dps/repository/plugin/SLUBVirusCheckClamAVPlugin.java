@@ -267,7 +267,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
             callSocketCommandStream(socket, command, in);
             in.close();
             //log.debug( "Response: " + response);
-            System.out.println("Response: " + response);
+            System.out.println("Response: " + response.trim());
             // parse return code
             String result = response.trim();
             if (RESPONSEOK.equals(result)) {
@@ -307,7 +307,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
             byte[] command = VERSION;
             response = "";
             callSocketCommand(socket, command);
-            return response;
+            return response.trim();
         } catch (IOException e) {
             //log.error("exception creation socket, clamd not available at host=" + host + "port=" + port, e);
             System.out.println("exception creation socket, clamd not available at host=" + host + "port=" + port + " " + e);
