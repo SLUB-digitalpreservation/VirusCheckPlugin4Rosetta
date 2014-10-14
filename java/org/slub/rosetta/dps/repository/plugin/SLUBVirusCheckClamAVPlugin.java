@@ -87,7 +87,7 @@ public class SLUBVirusCheckClamAVPlugin implements VirusCheckPlugin {
         Map<String, String> initp = new HashMap<String, String>();
         initp.put( "host", "127.0.0.1");
         initp.put( "port", "3310");
-        initp.put( "timeout", "60");
+        initp.put( "timeout", "60000");
         plugin.initParams( initp );
         System.out.println("Agent: " + plugin.getAgent());
         for (String file : args) {

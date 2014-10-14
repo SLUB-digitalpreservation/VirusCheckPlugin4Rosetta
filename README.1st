@@ -21,3 +21,7 @@ HINT: if you update the code you should also increase the value of the xpath
 'pl:metadata-config/pl:version' in the file
 PLUGIN-INF/metadata_SLUBVirusCheckClamAVPlugin.xml to ensure Rosetta recognizes
 the updated plugin
+
+HINT: Sometimes a message "broken pipe" will be reported. This occurs if clamd
+rejects the stream, because it size exceeds the configured limit. Please check
+the config file of clamd and set the StreamMaxLength parameter correctly.
