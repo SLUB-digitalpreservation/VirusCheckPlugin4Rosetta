@@ -1,1 +1,0 @@
-Main-Class: org.slub.rosetta.dps.repository.plugin.SLUBVirusCheckClamAVPlugin
