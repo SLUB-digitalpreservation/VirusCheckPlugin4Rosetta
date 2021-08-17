@@ -4,4 +4,4 @@
 
 Please find the latest and maintained version at SLUB's public GitLab instance.
 
-You can clone it using: `git clone https://git.slub-dresden.de/slub-digitalpreservation/viruscheckplugin4rosetta.git`.
+You can clone it using: `git clone https://git.slub-dresden.de/digital-preservation/viruscheckplugin4rosetta.git`.
